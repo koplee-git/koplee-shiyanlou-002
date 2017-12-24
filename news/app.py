@@ -12,13 +12,17 @@ class File(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     title = db.Column(db.String(80))
     created_time=db.Column(db.DateTime)
+    category = db.Column(db.String)
     category_id=db.Column(db.Integer,db.ForeignKey('category.id'))
     category=db.relationship('Category',backref=db.backref('files'))
     content=db.Column(db.Text)
-    def __init__(self):
-        pass
+    def __init__(self,title,created_time,category,content):
+        self.title = title
+        self.created_time = created_time
+        self.category = category
+        self.content = content
     def __repr__(self):
-        pass
+        return "<File%r>"%self.id
 class Category(db.Model):
     __tablename__='category'
     id = db.Column(db.Integer,primary_key=True)
@@ -38,7 +42,7 @@ def index():
     return render_template('index.html',newfilelst=newfilelst)
 
 @app.route('/files/<filename>')
-def file(filename):
+def file(fileid):
     filename='/home/shiyanlou/files/'+ str(filename) + '.json'
     print(filename)
     if os.path.exists(filename) :
