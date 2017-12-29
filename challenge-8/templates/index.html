@@ -1,0 +1,9 @@
+<p> {{newfilelst}}</p>
+<ul>
+{% for newfile in newfilelst %}
+    {% for tag in newfile.tags %}
+        <span>{{tag}}</span>
+    {% endfor %}
+    <li><a href='{{url_for('file',_external=True,fileid=newfile.id)}}'>{{newfile.title}}</a></li>
+{% endfor %}
+</ul>
